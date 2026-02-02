@@ -1,120 +1,387 @@
 {
-  "lastUpdated": "2025-01-20T12:00:00Z",
-  
+  "lastUpdated": "2026-02-02T00:14:49.676Z",
+  "cryptoPrices": {
+    "BTC": {
+      "price": 77527,
+      "change24h": -2.16
+    },
+    "ETH": {
+      "price": 2291.68,
+      "change24h": -7.04
+    },
+    "SOL": {
+      "price": 100.95,
+      "change24h": -4.59
+    },
+    "XRP": {
+      "price": 1.59,
+      "change24h": -3.74
+    },
+    "SUI": {
+      "price": 1.11,
+      "change24h": -3.92
+    }
+  },
   "defiBot": {
-    "status": "Active",
-    "totalPnl": "+$1,234.56",
-    "pnl24h": "+$89.45",
-    "openPositions": 2,
-    "wallets": {
-      "main": {
-        "sol": "12.45",
-        "usdc": "1,500.00"
+    "status": "TRADING",
+    "version": "3.2",
+    "equity": 159,
+    "leverage": 5.3,
+    "totalCollateral": 152.57,
+    "freeCollateral": 0,
+    "unrealizedPnl": 6.43,
+    "wallets": [
+      {
+        "name": "Drift Trading",
+        "chain": "Solana",
+        "address": "3gPExFYHC8fqkwwrb6De8n9fwYdbJPBG3XYLstKNNkt7",
+        "balance": "165 USDC",
+        "balanceUsd": 165.11
       },
-      "drift": {
-        "sol": "0.50",
-        "usdc": "5,000.00"
+      {
+        "name": "Solana Main",
+        "chain": "Solana",
+        "address": "5AagrC2RKecXif3AQxa9bktuHJgvvMtbG5Y6rCghb39Y",
+        "balance": "7.94 SOL",
+        "balanceUsd": 821.87
+      },
+      {
+        "name": "EVM Wallet",
+        "chain": "ETH/ARB/BASE",
+        "address": "0xD2F6EeE876999d3AF71053252aAD3F2271454CF1",
+        "balance": "0 ETH",
+        "balanceUsd": 0
+      },
+      {
+        "name": "Bitcoin",
+        "chain": "BTC",
+        "address": "bc1q6a8djq3s3h8tp6sy39l8v3vwlnuh6lm267nlx0",
+        "balance": "0 BTC",
+        "balanceUsd": 0
       }
-    },
-    "driftAccount": {
-      "freeCollateral": "$4,250.00",
-      "marginUsed": "$750.00",
-      "unrealizedPnl": "+$125.30"
-    },
-    "positions": [],
-    "trades": [],
+    ],
+    "positions": [
+      {
+        "asset": "XRP-PERP",
+        "direction": "SHORT",
+        "size": 870,
+        "notional": 843.49,
+        "entry": 0.9592,
+        "current": 0.9695,
+        "pnl": -9.01,
+        "stopLoss": 1.01,
+        "takeProfit": null,
+        "type": "directional",
+        "notes": "Trailing stop starts at $1.45 Coinbase"
+      }
+    ],
+    "closedPositions": [
+      {
+        "asset": "BTC-PERP",
+        "direction": "SHORT",
+        "pnl": 1.32,
+        "closedAt": "2026-02-01",
+        "reason": "Closed to fund XRP short"
+      },
+      {
+        "asset": "SUI-PERP",
+        "direction": "SHORT",
+        "pnl": 1.24,
+        "closedAt": "2026-02-01",
+        "reason": "Closed to fund XRP short"
+      },
+      {
+        "asset": "XRP-PERP (funding)",
+        "direction": "SHORT",
+        "pnl": 0.65,
+        "closedAt": "2026-02-01",
+        "reason": "Closed to free margin"
+      },
+      {
+        "asset": "SOL-PERP",
+        "direction": "LONG",
+        "pnl": -22.8,
+        "closedAt": "2026-02-01",
+        "reason": "Stop-loss hit"
+      },
+      {
+        "asset": "XRP-PERP",
+        "direction": "SHORT",
+        "pnl": 133.77,
+        "closedAt": "2026-01-30",
+        "reason": "Manual close"
+      }
+    ],
     "recentActivity": [
       {
-        "type": "info",
-        "message": "Dashboard initialized",
-        "timestamp": "2025-01-20T12:00:00Z"
+        "time": "12:31 PM",
+        "type": "update",
+        "message": "XRP SHORT now in profit +$0.58"
+      },
+      {
+        "time": "11:42 AM",
+        "type": "update",
+        "message": "Wallet overview added"
+      },
+      {
+        "time": "11:35 AM",
+        "type": "trade",
+        "message": "XRP SHORT maxed: 713 units ($690) @ 4.23x"
+      },
+      {
+        "time": "11:27 AM",
+        "type": "trade",
+        "message": "OPENED: XRP-PERP SHORT - directional trade"
       }
     ]
   },
-  
   "momentumBot": {
     "status": "Idle",
-    "totalPnl": "+$567.89",
-    "pnl24h": "$0.00",
-    "winRate": "62%",
+    "totalPnl": 0,
+    "winRate": "N/A",
     "activeSignals": 0,
     "signals": [],
-    "watchlist": [],
+    "watchlist": [
+      "XRP",
+      "SOL",
+      "SUI"
+    ],
     "settings": {
       "timeframes": {
         "primary": "4H",
-        "secondary": "1D",
-        "confirmation": "1H"
-      },
-      "indicators": {
-        "rsiPeriod": 14,
-        "macdFast": 12,
-        "macdSlow": 26
+        "secondary": "1D"
       },
       "risk": {
         "maxPosition": "5%",
-        "stopLoss": "2%",
-        "takeProfit": "6%"
+        "stopLoss": "2%"
       }
     },
-    "closedTrades": [],
     "recentActivity": [
       {
         "type": "info",
-        "message": "Bot initialized - waiting for signals",
-        "timestamp": "2025-01-20T12:00:00Z"
+        "message": "Bot paused - using DeFi bot for shorts",
+        "timestamp": "2026-02-01"
       }
     ]
   },
-  
   "tradingBot": {
-    "status": "Active",
-    "totalPnl": "+$2,345.67",
-    "pnl24h": "+$156.78",
-    "winRate": "58%",
-    "trades24h": 5,
-    "balances": {
-      "usd": 2500.00,
-      "btc": 0.025,
-      "btcUsd": 2625.00,
-      "eth": 0.5,
-      "ethUsd": 1650.00
-    },
-    "todayStats": {
-      "trades": 5,
-      "volume": 1250.00,
-      "fees": 12.50
-    },
-    "pairs": ["BTC-USD", "ETH-USD", "XRP-USD", "SOL-USD"],
-    "signals": [],
-    "openOrders": [],
-    "tradeHistory": [],
-    "settings": {
-      "signal": {
-        "lookback": "24h",
-        "threshold": "2.5%",
-        "confirmation": "15m"
+    "status": "PAPER",
+    "version": "3.2",
+    "balance": 10164,
+    "startingBalance": 10000,
+    "totalPnl": 164,
+    "pnlPercent": 1.639999999999997,
+    "closedTrades": 1,
+    "prices": {
+      "BTC": {
+        "price": 78401.46,
+        "trend": "down",
+        "note": "Recovered from $76k flash crash"
       },
-      "risk": {
-        "maxTradeSize": 500,
-        "dailyLossLimit": 100,
-        "maxOpenTrades": 3
+      "SOL": {
+        "price": 104.5,
+        "trend": "down",
+        "note": "Bounced from $99"
+      },
+      "XRP": {
+        "price": 1.63765,
+        "trend": "down",
+        "note": "Holding above $1.50 support"
+      },
+      "SUI": {
+        "price": 1.13205,
+        "trend": "down",
+        "note": "Range-bound"
       }
     },
+    "levels": {
+      "BTC": {
+        "support": 75000,
+        "resistance": 82500,
+        "sessionHigh": 80730,
+        "sessionLow": 76022
+      },
+      "SOL": {
+        "support": 95,
+        "resistance": 115,
+        "sessionHigh": 107.44,
+        "sessionLow": 99.04
+      },
+      "XRP": {
+        "support": 1.5,
+        "resistance": 1.8,
+        "sessionHigh": 1.68,
+        "sessionLow": 1.52
+      }
+    },
+    "lastTrade": {
+      "asset": "XRP",
+      "direction": "SHORT",
+      "pnl": 133.77,
+      "entry": 1.7855,
+      "exit": 1.7287,
+      "rMultiple": 2.6
+    },
+    "signal": "SKIP LONGS — SUSTAINED DOWNTREND",
+    "nextAction": "Wait for Kraken shorting",
     "recentActivity": [
       {
-        "type": "info",
-        "message": "Trading bot v3.2 running",
-        "timestamp": "2025-01-20T12:00:00Z"
+        "time": "5:23 AM",
+        "message": "Dashboard refreshed — prices stabilizing",
+        "type": "up"
+      },
+      {
+        "time": "12:05 PM (prev)",
+        "message": "Dashboard synced with current prices",
+        "type": "neutral"
+      },
+      {
+        "time": "11:45 AM (prev)",
+        "message": "🚨 Flash crash: BTC $76k, SOL below $100",
+        "type": "down"
+      },
+      {
+        "time": "11:35 AM (prev)",
+        "message": "BTC broke $78k support",
+        "type": "down"
+      },
+      {
+        "time": "10:45 AM (prev)",
+        "message": "Dashboard updated to v3.2 framework",
+        "type": "neutral"
       }
     ]
   },
-  
   "daily": {
-    "date": "2025-01-20",
-    "notes": "Dashboard scaffold created. Ready for live data integration.",
-    "marketMovers": [],
-    "econCalendar": [],
-    "senatorTrades": []
+    "date": "2026-02-02",
+    "notes": "Market in sustained downtrend. BTC flash crashed to $76k, recovered to $77k. SOL tested $99. XRP holding above $1.50 support. Running XRP-PERP SHORT on Drift.",
+    "marketMovers": [
+      {
+        "ticker": "BTC",
+        "move": "-2.16%",
+        "note": "$77,527"
+      },
+      {
+        "ticker": "ETH",
+        "move": "-7.04%",
+        "note": "$2,291.68"
+      },
+      {
+        "ticker": "SOL",
+        "move": "-4.59%",
+        "note": "$100.95"
+      }
+    ],
+    "senatorTrades": [
+      {
+        "senator": "Tina Smith (D-MN)",
+        "ticker": "B",
+        "company": "Berkshire Hathaway Inc",
+        "type": "SELL",
+        "size": "100K–250K",
+        "tradedDate": "26 Jan 2026",
+        "publishedDate": "30 Jan 2026"
+      },
+      {
+        "senator": "Tina Smith (D-MN)",
+        "ticker": "MRSH",
+        "company": "Marsh & McLennan Companies Inc",
+        "type": "SELL",
+        "size": "50K–100K",
+        "tradedDate": "26 Jan 2026",
+        "publishedDate": "30 Jan 2026"
+      },
+      {
+        "senator": "Katie Britt (R-AL)",
+        "ticker": "JPM",
+        "company": "JPMorgan Chase & Co",
+        "type": "SELL",
+        "size": "1K–15K",
+        "tradedDate": "27 Jan 2026",
+        "publishedDate": "29 Jan 2026"
+      },
+      {
+        "senator": "Katie Britt (R-AL)",
+        "ticker": "XOM",
+        "company": "Exxon Mobil Corp",
+        "type": "BUY",
+        "size": "1K–15K",
+        "tradedDate": "13 Apr 2025",
+        "publishedDate": "26 Jan 2026"
+      },
+      {
+        "senator": "Katie Britt (R-AL)",
+        "ticker": "JPM",
+        "company": "JPMorgan Chase & Co",
+        "type": "BUY",
+        "size": "1K–15K",
+        "tradedDate": "13 Apr 2025",
+        "publishedDate": "26 Jan 2026"
+      },
+      {
+        "senator": "Katie Britt (R-AL)",
+        "ticker": "GOOGL",
+        "company": "Alphabet Inc",
+        "type": "BUY",
+        "size": "1K–15K",
+        "tradedDate": "13 Apr 2025",
+        "publishedDate": "26 Jan 2026"
+      },
+      {
+        "senator": "Katie Britt (R-AL)",
+        "ticker": "EOG",
+        "company": "EOG Resources Inc",
+        "type": "BUY",
+        "size": "1K–15K",
+        "tradedDate": "13 Apr 2025",
+        "publishedDate": "26 Jan 2026"
+      },
+      {
+        "senator": "Katie Britt (R-AL)",
+        "ticker": "AAPL",
+        "company": "Apple Inc",
+        "type": "BUY",
+        "size": "1K–15K",
+        "tradedDate": "13 Apr 2025",
+        "publishedDate": "26 Jan 2026"
+      },
+      {
+        "senator": "Katie Britt (R-AL)",
+        "ticker": "AMZN",
+        "company": "Amazon.com Inc",
+        "type": "BUY",
+        "size": "1K–15K",
+        "tradedDate": "13 Apr 2025",
+        "publishedDate": "26 Jan 2026"
+      },
+      {
+        "senator": "Katie Britt (R-AL)",
+        "ticker": "WMT",
+        "company": "Walmart Inc",
+        "type": "BUY",
+        "size": "1K–15K",
+        "tradedDate": "13 Apr 2025",
+        "publishedDate": "26 Jan 2026"
+      },
+      {
+        "senator": "Katie Britt (R-AL)",
+        "ticker": "V",
+        "company": "Visa Inc",
+        "type": "BUY",
+        "size": "1K–15K",
+        "tradedDate": "13 Apr 2025",
+        "publishedDate": "26 Jan 2026"
+      },
+      {
+        "senator": "Katie Britt (R-AL)",
+        "ticker": "MSFT",
+        "company": "Microsoft Corp",
+        "type": "BUY",
+        "size": "1K–15K",
+        "tradedDate": "13 Apr 2025",
+        "publishedDate": "26 Jan 2026"
+      }
+    ],
+    "econCalendar": []
   }
 }
