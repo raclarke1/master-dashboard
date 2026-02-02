@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Dashboard - DeFi Bot</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">Master Dashboard</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Macro</a></li>
+        <li><a href="daily.html">Daily</a></li>
+        <li><a href="defi-bot.html" class="active">DeFi Bot</a></li>
+        <li><a href="momentum-bot.html">Momentum</a></li>
+        <li><a href="trading-bot.html">Trading</a></li>
+      </ul>
+      <span class="nav-timestamp" id="lastUpdate">Loading...</span>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <header class="page-header">
+      <h1 class="page-title">DeFi Bot</h1>
+      <p class="page-subtitle">Drift perps, arbitrage, and liquidation opportunities</p>
+    </header>
+
+    <!-- Bot Status -->
+    <section class="section">
+      <div class="grid-4">
+        <div class="stat-card">
+          <div class="stat-label">Status</div>
+          <div class="stat-value" id="defi-bot-status">--</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total PnL</div>
+          <div class="stat-value" id="defi-total-pnl">--</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">24h PnL</div>
+          <div class="stat-value" id="defi-24h-pnl">--</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Open Positions</div>
+          <div class="stat-value" id="defi-open-positions">--</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wallet Balances -->
+    <section class="section">
+      <h2 class="section-title">💰 Wallet Balances</h2>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Solana Wallets</span>
+          </div>
+          <div class="card-body">
+            <table class="ticker-table">
+              <thead>
+                <tr>
+                  <th>Wallet</th>
+                  <th class="text-right">SOL</th>
+                  <th class="text-right">USDC</th>
+                </tr>
+              </thead>
+              <tbody id="solanaWallets">
+                <tr>
+                  <td>Main</td>
+                  <td class="text-right" id="sol-main">--</td>
+                  <td class="text-right" id="usdc-main">--</td>
+                </tr>
+                <tr>
+                  <td>Drift</td>
+                  <td class="text-right" id="sol-drift">--</td>
+                  <td class="text-right" id="usdc-drift">--</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Drift Account</span>
+          </div>
+          <div class="card-body">
+            <table class="ticker-table">
+              <thead>
+                <tr>
+                  <th>Metric</th>
+                  <th class="text-right">Value</th>
+                </tr>
+              </thead>
+              <tbody id="driftAccount">
+                <tr>
+                  <td>Free Collateral</td>
+                  <td class="text-right" id="drift-collateral">--</td>
+                </tr>
+                <tr>
+                  <td>Margin Used</td>
+                  <td class="text-right" id="drift-margin">--</td>
+                </tr>
+                <tr>
+                  <td>Unrealized PnL</td>
+                  <td class="text-right" id="drift-upnl">--</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Open Positions -->
+    <section class="section">
+      <h2 class="section-title">📊 Open Positions</h2>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Drift Perpetuals</span>
+        </div>
+        <div class="card-body" style="padding: 0;">
+          <table class="ticker-table">
+            <thead>
+              <tr>
+                <th>Market</th>
+                <th>Side</th>
+                <th class="text-right">Size</th>
+                <th class="text-right">Entry</th>
+                <th class="text-right">Mark</th>
+                <th class="text-right">PnL</th>
+                <th class="text-right">Liq. Price</th>
+              </tr>
+            </thead>
+            <tbody id="openPositions">
+              <tr>
+                <td colspan="7" class="text-center text-muted">No open positions</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Trades -->
+    <section class="section">
+      <h2 class="section-title">📜 Recent Trades</h2>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Last 20 Trades</span>
+        </div>
+        <div class="card-body" style="padding: 0;">
+          <table class="ticker-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Market</th>
+                <th>Side</th>
+                <th class="text-right">Size</th>
+                <th class="text-right">Price</th>
+                <th class="text-right">PnL</th>
+              </tr>
+            </thead>
+            <tbody id="recentTrades">
+              <tr>
+                <td colspan="6" class="text-center text-muted">No recent trades</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Activity Log -->
+    <section class="section">
+      <h2 class="section-title">📋 Activity Log</h2>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Bot Events</span>
+        </div>
+        <div class="card-body">
+          <ul class="activity-list" id="defiActivityLog">
+            <li class="activity-item">
+              <div class="activity-icon" style="background: rgba(88, 166, 255, 0.15);">ℹ️</div>
+              <div class="activity-content">
+                <div class="activity-text">Waiting for activity...</div>
+                <div class="activity-time">--</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/defi-bot.js"></script>
+</body>
+</html>

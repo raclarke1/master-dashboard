@@ -1,0 +1,120 @@
+{
+  "lastUpdated": "2025-01-20T12:00:00Z",
+  
+  "defiBot": {
+    "status": "Active",
+    "totalPnl": "+$1,234.56",
+    "pnl24h": "+$89.45",
+    "openPositions": 2,
+    "wallets": {
+      "main": {
+        "sol": "12.45",
+        "usdc": "1,500.00"
+      },
+      "drift": {
+        "sol": "0.50",
+        "usdc": "5,000.00"
+      }
+    },
+    "driftAccount": {
+      "freeCollateral": "$4,250.00",
+      "marginUsed": "$750.00",
+      "unrealizedPnl": "+$125.30"
+    },
+    "positions": [],
+    "trades": [],
+    "recentActivity": [
+      {
+        "type": "info",
+        "message": "Dashboard initialized",
+        "timestamp": "2025-01-20T12:00:00Z"
+      }
+    ]
+  },
+  
+  "momentumBot": {
+    "status": "Idle",
+    "totalPnl": "+$567.89",
+    "pnl24h": "$0.00",
+    "winRate": "62%",
+    "activeSignals": 0,
+    "signals": [],
+    "watchlist": [],
+    "settings": {
+      "timeframes": {
+        "primary": "4H",
+        "secondary": "1D",
+        "confirmation": "1H"
+      },
+      "indicators": {
+        "rsiPeriod": 14,
+        "macdFast": 12,
+        "macdSlow": 26
+      },
+      "risk": {
+        "maxPosition": "5%",
+        "stopLoss": "2%",
+        "takeProfit": "6%"
+      }
+    },
+    "closedTrades": [],
+    "recentActivity": [
+      {
+        "type": "info",
+        "message": "Bot initialized - waiting for signals",
+        "timestamp": "2025-01-20T12:00:00Z"
+      }
+    ]
+  },
+  
+  "tradingBot": {
+    "status": "Active",
+    "totalPnl": "+$2,345.67",
+    "pnl24h": "+$156.78",
+    "winRate": "58%",
+    "trades24h": 5,
+    "balances": {
+      "usd": 2500.00,
+      "btc": 0.025,
+      "btcUsd": 2625.00,
+      "eth": 0.5,
+      "ethUsd": 1650.00
+    },
+    "todayStats": {
+      "trades": 5,
+      "volume": 1250.00,
+      "fees": 12.50
+    },
+    "pairs": ["BTC-USD", "ETH-USD", "XRP-USD", "SOL-USD"],
+    "signals": [],
+    "openOrders": [],
+    "tradeHistory": [],
+    "settings": {
+      "signal": {
+        "lookback": "24h",
+        "threshold": "2.5%",
+        "confirmation": "15m"
+      },
+      "risk": {
+        "maxTradeSize": 500,
+        "dailyLossLimit": 100,
+        "maxOpenTrades": 3
+      }
+    },
+    "recentActivity": [
+      {
+        "type": "info",
+        "message": "Trading bot v3.2 running",
+        "timestamp": "2025-01-20T12:00:00Z"
+      }
+    ]
+  },
+  
+  "daily": {
+    "date": "2025-01-20",
+    "notes": "Dashboard scaffold created. Ready for live data integration.",
+    "marketMovers": [],
+    "econCalendar": [],
+    "senatorTrades": []
+  }
+}

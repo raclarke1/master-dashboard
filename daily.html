@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Dashboard - Daily Updates</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">Master Dashboard</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Macro</a></li>
+        <li><a href="daily.html" class="active">Daily</a></li>
+        <li><a href="defi-bot.html">DeFi Bot</a></li>
+        <li><a href="momentum-bot.html">Momentum</a></li>
+        <li><a href="trading-bot.html">Trading</a></li>
+      </ul>
+      <span class="nav-timestamp" id="lastUpdate">Loading...</span>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <header class="page-header">
+      <h1 class="page-title">Daily Updates</h1>
+      <p class="page-subtitle">Market summary, news, and notable trades</p>
+    </header>
+
+    <!-- Daily Summary -->
+    <section class="section">
+      <h2 class="section-title">📅 Today's Summary</h2>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Market Movers</span>
+          </div>
+          <div class="card-body">
+            <ul class="activity-list" id="marketMovers">
+              <li class="activity-item">
+                <div class="activity-icon" style="background: rgba(63, 185, 80, 0.15);">📈</div>
+                <div class="activity-content">
+                  <div class="activity-text">Loading market data...</div>
+                  <div class="activity-time">--</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Economic Calendar</span>
+          </div>
+          <div class="card-body">
+            <ul class="activity-list" id="econCalendar">
+              <li class="activity-item">
+                <div class="activity-icon" style="background: rgba(88, 166, 255, 0.15);">📆</div>
+                <div class="activity-content">
+                  <div class="activity-text">No events today</div>
+                  <div class="activity-time">--</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Senator Trades -->
+    <section class="section">
+      <h2 class="section-title">🏛️ Senator Trades</h2>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Recent Congressional Trading Activity</span>
+          <a href="https://www.quiverquant.com/congresstrading/" target="_blank" class="badge badge-info">Source: QuiverQuant</a>
+        </div>
+        <div class="card-body" style="padding: 0;">
+          <table class="senator-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Senator</th>
+                <th>Ticker</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody id="senatorTradesBody">
+              <tr>
+                <td colspan="6" class="text-center text-muted">Loading senator trades...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bot Activity Feed -->
+    <section class="section">
+      <h2 class="section-title">🤖 Bot Activity</h2>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Recent Actions</span>
+        </div>
+        <div class="card-body">
+          <ul class="activity-list" id="botActivity">
+            <li class="activity-item">
+              <div class="activity-icon" style="background: rgba(163, 113, 247, 0.15);">🔄</div>
+              <div class="activity-content">
+                <div class="activity-text">Loading bot activity...</div>
+                <div class="activity-time">--</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notes Section -->
+    <section class="section">
+      <h2 class="section-title">📝 Daily Notes</h2>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Observations & Ideas</span>
+        </div>
+        <div class="card-body" id="dailyNotes">
+          <p class="text-muted">No notes for today yet.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/daily.js"></script>
+</body>
+</html>

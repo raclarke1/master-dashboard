@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Dashboard - Trading Bot</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">Master Dashboard</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Macro</a></li>
+        <li><a href="daily.html">Daily</a></li>
+        <li><a href="defi-bot.html">DeFi Bot</a></li>
+        <li><a href="momentum-bot.html">Momentum</a></li>
+        <li><a href="trading-bot.html" class="active">Trading</a></li>
+      </ul>
+      <span class="nav-timestamp" id="lastUpdate">Loading...</span>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <header class="page-header">
+      <h1 class="page-title">Trading Bot</h1>
+      <p class="page-subtitle">Coinbase spot trading with v3.2 signals</p>
+    </header>
+
+    <!-- Bot Status -->
+    <section class="section">
+      <div class="grid-4">
+        <div class="stat-card">
+          <div class="stat-label">Status</div>
+          <div class="stat-value" id="trading-bot-status">--</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total PnL</div>
+          <div class="stat-value" id="trading-total-pnl">--</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">24h PnL</div>
+          <div class="stat-value" id="trading-24h-pnl">--</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Win Rate</div>
+          <div class="stat-value" id="trading-win-rate">--</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Account Balance -->
+    <section class="section">
+      <h2 class="section-title">💰 Coinbase Account</h2>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Balances</span>
+          </div>
+          <div class="card-body">
+            <table class="ticker-table">
+              <thead>
+                <tr>
+                  <th>Asset</th>
+                  <th class="text-right">Balance</th>
+                  <th class="text-right">USD Value</th>
+                </tr>
+              </thead>
+              <tbody id="coinbaseBalances">
+                <tr>
+                  <td>USD</td>
+                  <td class="text-right" id="cb-usd">--</td>
+                  <td class="text-right">--</td>
+                </tr>
+                <tr>
+                  <td>BTC</td>
+                  <td class="text-right" id="cb-btc">--</td>
+                  <td class="text-right" id="cb-btc-usd">--</td>
+                </tr>
+                <tr>
+                  <td>ETH</td>
+                  <td class="text-right" id="cb-eth">--</td>
+                  <td class="text-right" id="cb-eth-usd">--</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Today's Stats</span>
+          </div>
+          <div class="card-body">
+            <table class="ticker-table">
+              <tbody>
+                <tr>
+                  <td>Trades Executed</td>
+                  <td class="text-right" id="today-trades">--</td>
+                </tr>
+                <tr>
+                  <td>Volume</td>
+                  <td class="text-right" id="today-volume">--</td>
+                </tr>
+                <tr>
+                  <td>Fees Paid</td>
+                  <td class="text-right" id="today-fees">--</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Current Strategy -->
+    <section class="section">
+      <h2 class="section-title">🎯 Current Strategy: v3.2</h2>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Active Signals</span>
+          <span class="badge badge-success">Running</span>
+        </div>
+        <div class="card-body" style="padding: 0;">
+          <table class="ticker-table">
+            <thead>
+              <tr>
+                <th>Pair</th>
+                <th>Signal</th>
+                <th class="text-right">Entry</th>
+                <th class="text-right">Current</th>
+                <th class="text-right">Target</th>
+                <th class="text-right">Stop</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="tradingSignals">
+              <tr>
+                <td colspan="7" class="text-center text-muted">No active signals</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Open Orders -->
+    <section class="section">
+      <h2 class="section-title">📋 Open Orders</h2>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Pending Orders</span>
+        </div>
+        <div class="card-body" style="padding: 0;">
+          <table class="ticker-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Pair</th>
+                <th>Side</th>
+                <th>Type</th>
+                <th class="text-right">Price</th>
+                <th class="text-right">Size</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="openOrders">
+              <tr>
+                <td colspan="7" class="text-center text-muted">No open orders</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trade History -->
+    <section class="section">
+      <h2 class="section-title">📜 Trade History</h2>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Recent Fills</span>
+        </div>
+        <div class="card-body" style="padding: 0;">
+          <table class="ticker-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Pair</th>
+                <th>Side</th>
+                <th class="text-right">Price</th>
+                <th class="text-right">Size</th>
+                <th class="text-right">Total</th>
+                <th class="text-right">Fee</th>
+              </tr>
+            </thead>
+            <tbody id="tradeHistory">
+              <tr>
+                <td colspan="7" class="text-center text-muted">No recent trades</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Strategy Config -->
+    <section class="section">
+      <h2 class="section-title">⚙️ Strategy Configuration</h2>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Trading Pairs</span>
+          </div>
+          <div class="card-body">
+            <ul class="activity-list" id="tradingPairs">
+              <li class="activity-item">
+                <div class="activity-content">
+                  <div class="activity-text">BTC-USD</div>
+                </div>
+              </li>
+              <li class="activity-item">
+                <div class="activity-content">
+                  <div class="activity-text">ETH-USD</div>
+                </div>
+              </li>
+              <li class="activity-item">
+                <div class="activity-content">
+                  <div class="activity-text">XRP-USD</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Signal Parameters</span>
+          </div>
+          <div class="card-body">
+            <table class="ticker-table">
+              <tbody>
+                <tr>
+                  <td>Lookback</td>
+                  <td class="text-right" id="signal-lookback">24h</td>
+                </tr>
+                <tr>
+                  <td>Threshold</td>
+                  <td class="text-right" id="signal-threshold">2.5%</td>
+                </tr>
+                <tr>
+                  <td>Confirmation</td>
+                  <td class="text-right" id="signal-confirm">15m</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Risk Settings</span>
+          </div>
+          <div class="card-body">
+            <table class="ticker-table">
+              <tbody>
+                <tr>
+                  <td>Max Trade Size</td>
+                  <td class="text-right" id="max-trade">$500</td>
+                </tr>
+                <tr>
+                  <td>Daily Loss Limit</td>
+                  <td class="text-right" id="daily-limit">$100</td>
+                </tr>
+                <tr>
+                  <td>Max Open Trades</td>
+                  <td class="text-right" id="max-open">3</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/trading-bot.js"></script>
+</body>
+</html>
