@@ -22,14 +22,10 @@
       "change24h": -3.92
     }
   },
-  "defiBot": {
-    "status": "TRADING",
+  "defi": {
+    "lastUpdate": "2026-02-02T00:10:31.685Z",
     "version": "3.2",
-    "equity": 159,
-    "leverage": 5.3,
-    "totalCollateral": 152.57,
-    "freeCollateral": 0,
-    "unrealizedPnl": 6.43,
+    "status": "TRADING",
     "wallets": [
       {
         "name": "Drift Trading",
@@ -60,59 +56,82 @@
         "balanceUsd": 0
       }
     ],
-    "positions": [
-      {
-        "asset": "XRP-PERP",
-        "direction": "SHORT",
-        "size": 870,
-        "notional": 843.49,
-        "entry": 0.9592,
-        "current": 0.9695,
-        "pnl": -9.01,
-        "stopLoss": 1.01,
-        "takeProfit": null,
-        "type": "directional",
-        "notes": "Trailing stop starts at $1.45 Coinbase"
-      }
-    ],
-    "closedPositions": [
-      {
-        "asset": "BTC-PERP",
-        "direction": "SHORT",
-        "pnl": 1.32,
-        "closedAt": "2026-02-01",
-        "reason": "Closed to fund XRP short"
-      },
-      {
-        "asset": "SUI-PERP",
-        "direction": "SHORT",
-        "pnl": 1.24,
-        "closedAt": "2026-02-01",
-        "reason": "Closed to fund XRP short"
-      },
-      {
-        "asset": "XRP-PERP (funding)",
-        "direction": "SHORT",
-        "pnl": 0.65,
-        "closedAt": "2026-02-01",
-        "reason": "Closed to free margin"
-      },
-      {
-        "asset": "SOL-PERP",
-        "direction": "LONG",
-        "pnl": -22.8,
-        "closedAt": "2026-02-01",
-        "reason": "Stop-loss hit"
-      },
-      {
-        "asset": "XRP-PERP",
-        "direction": "SHORT",
-        "pnl": 133.77,
-        "closedAt": "2026-01-30",
-        "reason": "Manual close"
-      }
-    ],
-    "recentActivity": [
+    "drift": {
+      "address": "3gPExFYHC8fqkwwrb6De8n9fwYdbJPBG3XYLstKNNkt7",
+      "freeCollateral": 0,
+      "totalCollateral": 152.57,
+      "equity": 159,
+      "leverage": 5.3,
+      "unrealizedPnl": 6.43,
+      "positions": [
+        {
+          "asset": "XRP-PERP",
+          "direction": "SHORT",
+          "size": 870,
+          "notional": 843.49,
+          "entry": 0.9592,
+          "current": 0.9695,
+          "pnl": -9.01,
+          "stopLoss": 1.01,
+          "takeProfit": null,
+          "type": "directional",
+          "notes": "Trailing stop starts at $1.45 Coinbase"
+        }
+      ],
+      "closedPositions": [
+        {
+          "asset": "BTC-PERP",
+          "direction": "SHORT",
+          "size": 0.0037,
+          "entry": 78415,
+          "exit": 78060,
+          "pnl": 1.32,
+          "closedAt": "2026-02-01",
+          "reason": "Closed to fund XRP short"
+        },
+        {
+          "asset": "SUI-PERP",
+          "direction": "SHORT",
+          "size": 87,
+          "entry": 1.1391,
+          "exit": 1.1248,
+          "pnl": 1.24,
+          "closedAt": "2026-02-01",
+          "reason": "Closed to fund XRP short"
+        },
+        {
+          "asset": "XRP-PERP (funding)",
+          "direction": "SHORT",
+          "size": 99,
+          "entry": 0.9765,
+          "exit": 0.97,
+          "pnl": 0.65,
+          "closedAt": "2026-02-01",
+          "reason": "Closed to free margin"
+        },
+        {
+          "asset": "SOL-PERP",
+          "direction": "LONG",
+          "size": 5.7,
+          "entry": 105,
+          "exit": 101,
+          "pnl": -22.8,
+          "closedAt": "2026-02-01",
+          "reason": "Stop-loss hit"
+        },
+        {
+          "asset": "XRP-PERP",
+          "direction": "SHORT",
+          "size": 2898,
+          "entry": 1.7855,
+          "exit": 1.74,
+          "pnl": 133.77,
+          "closedAt": "2026-01-30",
+          "reason": "Manual close"
+        }
+      ]
+    },
+    "activityLog": [
       {
         "time": "12:31 PM",
         "type": "update",
@@ -135,43 +154,10 @@
       }
     ]
   },
-  "momentumBot": {
-    "status": "Idle",
-    "totalPnl": 0,
-    "winRate": "N/A",
-    "activeSignals": 0,
-    "signals": [],
-    "watchlist": [
-      "XRP",
-      "SOL",
-      "SUI"
-    ],
-    "settings": {
-      "timeframes": {
-        "primary": "4H",
-        "secondary": "1D"
-      },
-      "risk": {
-        "maxPosition": "5%",
-        "stopLoss": "2%"
-      }
-    },
-    "recentActivity": [
-      {
-        "type": "info",
-        "message": "Bot paused - using DeFi bot for shorts",
-        "timestamp": "2026-02-01"
-      }
-    ]
-  },
-  "tradingBot": {
-    "status": "PAPER",
+  "trading": {
+    "lastUpdate": "2026-02-01T12:32:46.000Z",
     "version": "3.2",
-    "balance": 10164,
-    "startingBalance": 10000,
-    "totalPnl": 164,
-    "pnlPercent": 1.639999999999997,
-    "closedTrades": 1,
+    "mode": "paper",
     "prices": {
       "BTC": {
         "price": 78401.46,
@@ -208,11 +194,17 @@
         "sessionLow": 99.04
       },
       "XRP": {
-        "support": 1.5,
-        "resistance": 1.8,
+        "support": 1.50,
+        "resistance": 1.80,
         "sessionHigh": 1.68,
         "sessionLow": 1.52
       }
+    },
+    "account": {
+      "balance": 10164,
+      "startingBalance": 10000,
+      "openPositions": 0,
+      "closedTrades": 1
     },
     "lastTrade": {
       "asset": "XRP",
@@ -222,9 +214,12 @@
       "exit": 1.7287,
       "rMultiple": 2.6
     },
-    "signal": "SKIP LONGS — SUSTAINED DOWNTREND",
-    "nextAction": "Wait for Kraken shorting",
-    "recentActivity": [
+    "status": {
+      "hunting": false,
+      "signal": "SKIP LONGS — SUSTAINED DOWNTREND",
+      "nextAction": "Wait for Kraken shorting"
+    },
+    "activityLog": [
       {
         "time": "5:23 AM",
         "message": "Dashboard refreshed — prices stabilizing",
@@ -249,6 +244,35 @@
         "time": "10:45 AM (prev)",
         "message": "Dashboard updated to v3.2 framework",
         "type": "neutral"
+      }
+    ]
+  },
+  "momentumBot": {
+    "status": "Idle",
+    "totalPnl": 0,
+    "winRate": "N/A",
+    "activeSignals": 0,
+    "signals": [],
+    "watchlist": [
+      "XRP",
+      "SOL",
+      "SUI"
+    ],
+    "settings": {
+      "timeframes": {
+        "primary": "4H",
+        "secondary": "1D"
+      },
+      "risk": {
+        "maxPosition": "5%",
+        "stopLoss": "2%"
+      }
+    },
+    "recentActivity": [
+      {
+        "type": "info",
+        "message": "Bot paused - using DeFi bot for shorts",
+        "timestamp": "2026-02-01"
       }
     ]
   },

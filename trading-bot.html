@@ -1,288 +1,342 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Master Dashboard - Trading Bot</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Bot | Master Dashboard</title>
+    <meta http-equiv="refresh" content="300">
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-card: #1c2128;
+            --bg-hover: #21262d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-green: #00ff88;
+            --accent-red: #ff4757;
+            --accent-yellow: #ffa502;
+            --accent-blue: #58a6ff;
+            --border-color: #30363d;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            background: var(--bg-primary); 
+            color: var(--text-primary); 
+            min-height: 100vh;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .nav-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            height: 56px;
+        }
+        .nav-brand {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+            margin-right: 32px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-brand::before { content: '📊'; }
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.15s ease;
+        }
+        .nav-links a:hover {
+            color: var(--text-primary);
+            background: var(--bg-hover);
+        }
+        .nav-links a.active {
+            color: var(--text-primary);
+            background: var(--bg-card);
+        }
+        .nav-timestamp {
+            margin-left: auto;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
+
+        /* Main Content */
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        h1 { 
+            color: var(--accent-green); 
+            font-size: 2rem; 
+            margin-bottom: 5px;
+            text-shadow: 0 0 20px rgba(0,255,136,0.3);
+        }
+        .subtitle { color: #666; margin-bottom: 20px; font-size: 0.9rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px; }
+        .card {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16162a 100%);
+            border: 1px solid #2a2a4a;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        .card:hover { border-color: var(--accent-green); box-shadow: 0 0 20px rgba(0,255,136,0.1); }
+        .card h2 { color: #888; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .price { font-size: 2rem; font-weight: bold; color: #fff; }
+        .change { font-size: 0.9rem; margin-top: 5px; }
+        .up { color: var(--accent-green); }
+        .down { color: var(--accent-red); }
+        .neutral { color: var(--accent-yellow); }
+        .tag { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; margin-top: 5px; }
+        .tag-down { background: rgba(255,71,87,0.2); color: var(--accent-red); }
+        .tag-up { background: rgba(0,255,136,0.2); color: var(--accent-green); }
+        .tag-wait { background: rgba(255,165,2,0.2); color: var(--accent-yellow); }
+        .tag-skip { background: rgba(255,71,87,0.3); color: #ff6b7a; }
+        .status-card { grid-column: span 2; }
+        .status-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 15px; }
+        .stat { text-align: center; }
+        .stat-value { font-size: 1.5rem; color: var(--accent-green); font-weight: bold; }
+        .stat-label { font-size: 0.75rem; color: #666; text-transform: uppercase; }
+        .ta-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a2a4a; font-size: 0.85rem; }
+        .ta-row:last-child { border-bottom: none; }
+        .ta-label { color: #888; }
+        .ta-value { color: #fff; }
+        .framework { background: rgba(0,255,136,0.05); border-left: 3px solid var(--accent-green); padding: 15px; margin-bottom: 20px; font-size: 0.85rem; }
+        .framework-title { color: var(--accent-green); font-weight: bold; margin-bottom: 10px; }
+        .signal-card { border: 2px solid var(--accent-red); }
+        .footer { text-align: center; color: #444; font-size: 0.8rem; margin-top: 40px; }
+        .hunt-status { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+        .hunt-dot { width: 10px; height: 10px; border-radius: 50%; animation: blink 1.5s infinite; }
+        .hunt-dot.skip { background: var(--accent-red); }
+        .hunt-dot.hunting { background: var(--accent-green); }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .version-badge { background: linear-gradient(135deg, var(--accent-green), #00cc6a); color: #000; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-left: 10px; }
+        .improvement { background: rgba(0,255,136,0.1); border: 1px solid rgba(0,255,136,0.3); border-radius: 8px; padding: 10px; margin-top: 15px; }
+        @media (max-width: 768px) { 
+            .status-card { grid-column: span 1; } 
+            .status-grid { grid-template-columns: repeat(2, 1fr); } 
+        }
+        .loading { opacity: 0.5; }
+    </style>
 </head>
 <body>
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="index.html" class="nav-brand">Master Dashboard</a>
-      <ul class="nav-links">
-        <li><a href="index.html">Macro</a></li>
-        <li><a href="daily.html">Daily</a></li>
-        <li><a href="defi-bot.html">DeFi Bot</a></li>
-        <li><a href="momentum-bot.html">Momentum</a></li>
-        <li><a href="trading-bot.html" class="active">Trading</a></li>
-      </ul>
-      <span class="nav-timestamp" id="lastUpdate">Loading...</span>
-    </div>
-  </nav>
-
-  <main class="main-content">
-    <header class="page-header">
-      <h1 class="page-title">Trading Bot</h1>
-      <p class="page-subtitle">Coinbase spot trading with v3.2 signals</p>
-    </header>
-
-    <!-- Bot Status -->
-    <section class="section">
-      <div class="grid-4">
-        <div class="stat-card">
-          <div class="stat-label">Status</div>
-          <div class="stat-value" id="trading-bot-status">--</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Total PnL</div>
-          <div class="stat-value" id="trading-total-pnl">--</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">24h PnL</div>
-          <div class="stat-value" id="trading-24h-pnl">--</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Win Rate</div>
-          <div class="stat-value" id="trading-win-rate">--</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Account Balance -->
-    <section class="section">
-      <h2 class="section-title">💰 Coinbase Account</h2>
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Balances</span>
-          </div>
-          <div class="card-body">
-            <table class="ticker-table">
-              <thead>
-                <tr>
-                  <th>Asset</th>
-                  <th class="text-right">Balance</th>
-                  <th class="text-right">USD Value</th>
-                </tr>
-              </thead>
-              <tbody id="coinbaseBalances">
-                <tr>
-                  <td>USD</td>
-                  <td class="text-right" id="cb-usd">--</td>
-                  <td class="text-right">--</td>
-                </tr>
-                <tr>
-                  <td>BTC</td>
-                  <td class="text-right" id="cb-btc">--</td>
-                  <td class="text-right" id="cb-btc-usd">--</td>
-                </tr>
-                <tr>
-                  <td>ETH</td>
-                  <td class="text-right" id="cb-eth">--</td>
-                  <td class="text-right" id="cb-eth-usd">--</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Today's Stats</span>
-          </div>
-          <div class="card-body">
-            <table class="ticker-table">
-              <tbody>
-                <tr>
-                  <td>Trades Executed</td>
-                  <td class="text-right" id="today-trades">--</td>
-                </tr>
-                <tr>
-                  <td>Volume</td>
-                  <td class="text-right" id="today-volume">--</td>
-                </tr>
-                <tr>
-                  <td>Fees Paid</td>
-                  <td class="text-right" id="today-fees">--</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Current Strategy -->
-    <section class="section">
-      <h2 class="section-title">🎯 Current Strategy: v3.2</h2>
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Active Signals</span>
-          <span class="badge badge-success">Running</span>
-        </div>
-        <div class="card-body" style="padding: 0;">
-          <table class="ticker-table">
-            <thead>
-              <tr>
-                <th>Pair</th>
-                <th>Signal</th>
-                <th class="text-right">Entry</th>
-                <th class="text-right">Current</th>
-                <th class="text-right">Target</th>
-                <th class="text-right">Stop</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="tradingSignals">
-              <tr>
-                <td colspan="7" class="text-center text-muted">No active signals</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- Open Orders -->
-    <section class="section">
-      <h2 class="section-title">📋 Open Orders</h2>
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Pending Orders</span>
-        </div>
-        <div class="card-body" style="padding: 0;">
-          <table class="ticker-table">
-            <thead>
-              <tr>
-                <th>Time</th>
-                <th>Pair</th>
-                <th>Side</th>
-                <th>Type</th>
-                <th class="text-right">Price</th>
-                <th class="text-right">Size</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="openOrders">
-              <tr>
-                <td colspan="7" class="text-center text-muted">No open orders</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- Trade History -->
-    <section class="section">
-      <h2 class="section-title">📜 Trade History</h2>
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Recent Fills</span>
-        </div>
-        <div class="card-body" style="padding: 0;">
-          <table class="ticker-table">
-            <thead>
-              <tr>
-                <th>Time</th>
-                <th>Pair</th>
-                <th>Side</th>
-                <th class="text-right">Price</th>
-                <th class="text-right">Size</th>
-                <th class="text-right">Total</th>
-                <th class="text-right">Fee</th>
-              </tr>
-            </thead>
-            <tbody id="tradeHistory">
-              <tr>
-                <td colspan="7" class="text-center text-muted">No recent trades</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- Strategy Config -->
-    <section class="section">
-      <h2 class="section-title">⚙️ Strategy Configuration</h2>
-      <div class="grid-3">
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Trading Pairs</span>
-          </div>
-          <div class="card-body">
-            <ul class="activity-list" id="tradingPairs">
-              <li class="activity-item">
-                <div class="activity-content">
-                  <div class="activity-text">BTC-USD</div>
-                </div>
-              </li>
-              <li class="activity-item">
-                <div class="activity-content">
-                  <div class="activity-text">ETH-USD</div>
-                </div>
-              </li>
-              <li class="activity-item">
-                <div class="activity-content">
-                  <div class="activity-text">XRP-USD</div>
-                </div>
-              </li>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">Master Dashboard</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Macro</a></li>
+                <li><a href="daily.html">Daily</a></li>
+                <li><a href="defi-bot.html">DeFi Bot</a></li>
+                <li><a href="momentum-bot.html">Momentum</a></li>
+                <li><a href="trading-bot.html" class="active">Trading</a></li>
             </ul>
-          </div>
+            <span class="nav-timestamp" id="navLastUpdate">Loading...</span>
         </div>
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Signal Parameters</span>
-          </div>
-          <div class="card-body">
-            <table class="ticker-table">
-              <tbody>
-                <tr>
-                  <td>Lookback</td>
-                  <td class="text-right" id="signal-lookback">24h</td>
-                </tr>
-                <tr>
-                  <td>Threshold</td>
-                  <td class="text-right" id="signal-threshold">2.5%</td>
-                </tr>
-                <tr>
-                  <td>Confirmation</td>
-                  <td class="text-right" id="signal-confirm">15m</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Risk Settings</span>
-          </div>
-          <div class="card-body">
-            <table class="ticker-table">
-              <tbody>
-                <tr>
-                  <td>Max Trade Size</td>
-                  <td class="text-right" id="max-trade">$500</td>
-                </tr>
-                <tr>
-                  <td>Daily Loss Limit</td>
-                  <td class="text-right" id="daily-limit">$100</td>
-                </tr>
-                <tr>
-                  <td>Max Open Trades</td>
-                  <td class="text-right" id="max-open">3</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
+    </nav>
 
-  <script src="js/config.js"></script>
-  <script src="js/api.js"></script>
-  <script src="js/trading-bot.js"></script>
+    <div class="container">
+        <h1>🤖 Jarvis Live <span class="version-badge" id="version">v3.2</span></h1>
+        <p class="subtitle">Paper Trading Dashboard — Last updated: <span id="lastUpdate">Loading...</span></p>
+        
+        <div class="framework">
+            <div class="framework-title">📊 Framework v3.2 (Freqtrade Optimized)</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+                <div>📈 EMA: <strong>15/45</strong> (faster)</div>
+                <div>📊 Volume: <strong>>2.0x avg</strong> (stricter)</div>
+                <div>🎯 Win Rate: <strong>61.5%</strong></div>
+                <div>🚫 Exit Signals: <strong>DISABLED</strong></div>
+            </div>
+            <div class="improvement">
+                <strong>v3.2 Improvement:</strong> Removed exit signals (were causing 96% of losses). Now using trailing stop + ROI only. Beat market by +13.8% in backtest.
+            </div>
+        </div>
+        
+        <div class="grid" id="priceCards">
+            <!-- Price cards populated by JS -->
+        </div>
+        
+        <div class="grid">
+            <div class="card status-card">
+                <h2>📊 Paper Trading Account</h2>
+                <div class="status-grid">
+                    <div class="stat"><div class="stat-value" id="balance">$--</div><div class="stat-label">Balance</div></div>
+                    <div class="stat"><div class="stat-value up" id="totalReturn">--%</div><div class="stat-label">Total Return</div></div>
+                    <div class="stat"><div class="stat-value" id="openPositions">--</div><div class="stat-label">Open Positions</div></div>
+                    <div class="stat"><div class="stat-value" id="closedTrades">--</div><div class="stat-label">Closed Trades</div></div>
+                </div>
+                <div style="margin-top: 15px; text-align: center; color: #666; font-size: 0.8rem;">
+                    Framework v3.2 active • 61.5% win rate • Trailing stop + ROI exits only
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>📈 Last Trade</h2>
+                <div class="price" id="lastTradePnl">--</div>
+                <div class="change" id="lastTradeDesc">--</div>
+                <div style="margin-top: 15px;">
+                    <div class="ta-row"><span class="ta-label">Entry</span><span class="ta-value" id="lastTradeEntry">--</span></div>
+                    <div class="ta-row"><span class="ta-label">Exit</span><span class="ta-value" id="lastTradeExit">--</span></div>
+                    <div class="ta-row"><span class="ta-label">R Multiple</span><span class="ta-value up" id="lastTradeR">--</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top: 20px;">
+            <h2>📋 Activity Log</h2>
+            <div style="font-size: 0.85rem; line-height: 1.8;" id="activityLog">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <h2>🔬 v3.2 Backtest Results</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 15px;">
+                <div>
+                    <h3 style="color: var(--accent-red); font-size: 0.9rem; margin-bottom: 10px;">❌ v3.1 (Exit Signals ON)</h3>
+                    <div class="ta-row"><span class="ta-label">Win Rate</span><span class="ta-value down">19.4%</span></div>
+                    <div class="ta-row"><span class="ta-label">Total P&L</span><span class="ta-value down">-18.45%</span></div>
+                    <div class="ta-row"><span class="ta-label">Trades</span><span class="ta-value">31</span></div>
+                </div>
+                <div>
+                    <h3 style="color: var(--accent-green); font-size: 0.9rem; margin-bottom: 10px;">✅ v3.2 (Trailing Stop Only)</h3>
+                    <div class="ta-row"><span class="ta-label">Win Rate</span><span class="ta-value up">61.5%</span></div>
+                    <div class="ta-row"><span class="ta-label">Total P&L</span><span class="ta-value neutral">-6.86%</span></div>
+                    <div class="ta-row"><span class="ta-label">Trades</span><span class="ta-value">13</span></div>
+                </div>
+                <div>
+                    <h3 style="color: var(--accent-yellow); font-size: 0.9rem; margin-bottom: 10px;">📊 Key Finding</h3>
+                    <div class="ta-row"><span class="ta-label">ROI Exits</span><span class="ta-value up">100% win</span></div>
+                    <div class="ta-row"><span class="ta-label">Signal Exits</span><span class="ta-value down">4% win</span></div>
+                    <div class="ta-row"><span class="ta-label">vs Market</span><span class="ta-value up">+13.8%</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Jarvis AI Trading Bot • Framework v3.2 • Paper Mode • Auto-refresh every 5 min</p>
+            <p style="margin-top: 5px;">🔗 <a href="https://github.com/raclarke1/jarvis-live" style="color: var(--accent-green);">GitHub</a> • Data loaded from state.json</p>
+        </div>
+    </div>
+
+    <script>
+        async function loadState() {
+            try {
+                const response = await fetch('state.json?' + Date.now());
+                const masterState = await response.json();
+                const state = masterState.trading || masterState; // Support both nested and flat
+                renderDashboard(state, masterState);
+            } catch (err) {
+                console.error('Failed to load state:', err);
+                document.getElementById('lastUpdate').textContent = 'Error loading data';
+            }
+        }
+
+        function formatPrice(price) {
+            if (price >= 1000) return '$' + price.toLocaleString('en-US', {maximumFractionDigits: 0});
+            if (price >= 1) return '$' + price.toFixed(2);
+            return '$' + price.toFixed(4);
+        }
+
+        function formatDate(isoString) {
+            const d = new Date(isoString);
+            return d.toLocaleString('en-US', { 
+                month: 'short', day: 'numeric', year: 'numeric',
+                hour: 'numeric', minute: '2-digit', hour12: true,
+                timeZone: 'America/Denver'
+            }) + ' MST';
+        }
+
+        function renderDashboard(state, masterState) {
+            // Update timestamp
+            const updateTime = formatDate(state.lastUpdate || masterState.lastUpdated);
+            document.getElementById('lastUpdate').textContent = updateTime;
+            document.getElementById('navLastUpdate').textContent = updateTime;
+            document.getElementById('version').textContent = 'v' + (state.version || '3.2');
+
+            // Render price cards
+            const prices = state.prices || {};
+            const levels = state.levels || {};
+            const priceCardsHtml = Object.entries(prices).map(([symbol, data]) => {
+                const lvl = levels[symbol] || {};
+                const trendClass = data.trend === 'up' ? 'up' : (data.trend === 'down' ? 'down' : 'neutral');
+                const trendArrow = data.trend === 'up' ? '▲ UPTREND' : (data.trend === 'down' ? '▼ DOWNTREND' : '◆ SIDEWAYS');
+                const tagClass = data.trend === 'down' ? 'tag-skip' : 'tag-wait';
+                const tagText = data.trend === 'down' ? 'SKIP LONGS' : 'WATCHING';
+                
+                return `
+                    <div class="card">
+                        <h2>${symbol}</h2>
+                        <div class="price">${formatPrice(data.price)}</div>
+                        <div class="change ${trendClass}">${trendArrow}${data.note ? ' (' + data.note + ')' : ''}</div>
+                        <span class="tag ${tagClass}">${tagText}</span>
+                        ${lvl.sessionHigh ? `<div class="ta-row"><span class="ta-label">Session High</span><span class="ta-value">${formatPrice(lvl.sessionHigh)}</span></div>` : ''}
+                        ${lvl.sessionLow ? `<div class="ta-row"><span class="ta-label">Session Low</span><span class="ta-value down">${formatPrice(lvl.sessionLow)}</span></div>` : ''}
+                        ${lvl.support ? `<div class="ta-row"><span class="ta-label">Support</span><span class="ta-value">${formatPrice(lvl.support)}</span></div>` : ''}
+                        <div class="ta-row"><span class="ta-label">Signal</span><span class="ta-value down">Waiting for Kraken (SHORT)</span></div>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('priceCards').innerHTML = priceCardsHtml;
+
+            // Account stats
+            const account = state.account || { balance: state.balance || 10000, startingBalance: state.startingBalance || 10000, openPositions: 0, closedTrades: state.closedTrades || 0 };
+            const returnPct = ((account.balance - account.startingBalance) / account.startingBalance * 100).toFixed(2);
+            document.getElementById('balance').textContent = '$' + account.balance.toLocaleString();
+            document.getElementById('totalReturn').textContent = (returnPct >= 0 ? '+' : '') + returnPct + '%';
+            document.getElementById('totalReturn').className = 'stat-value ' + (returnPct >= 0 ? 'up' : 'down');
+            document.getElementById('openPositions').textContent = account.openPositions;
+            document.getElementById('closedTrades').textContent = account.closedTrades;
+
+            // Last trade
+            const trade = state.lastTrade;
+            if (trade) {
+                const pnlClass = trade.pnl >= 0 ? 'up' : 'down';
+                document.getElementById('lastTradePnl').className = 'price ' + pnlClass;
+                document.getElementById('lastTradePnl').textContent = (trade.pnl >= 0 ? '+' : '') + '$' + trade.pnl.toFixed(2);
+                document.getElementById('lastTradeDesc').textContent = `${trade.asset} ${trade.direction} — Closed for ${trade.pnl >= 0 ? 'profit' : 'loss'}`;
+                document.getElementById('lastTradeEntry').textContent = formatPrice(trade.entry);
+                document.getElementById('lastTradeExit').textContent = formatPrice(trade.exit);
+                document.getElementById('lastTradeR').textContent = (trade.rMultiple >= 0 ? '+' : '') + trade.rMultiple.toFixed(1) + 'R';
+            }
+
+            // Activity log
+            const activityLog = state.activityLog || state.recentActivity || [];
+            const logHtml = activityLog.map(entry => {
+                const typeClass = entry.type === 'up' ? 'up' : (entry.type === 'down' ? 'down' : '');
+                return `<div class="ta-row"><span class="ta-label">${entry.time}</span><span class="ta-value ${typeClass}">${entry.message}</span></div>`;
+            }).join('');
+            document.getElementById('activityLog').innerHTML = logHtml;
+        }
+
+        // Load on page load
+        loadState();
+        
+        // Refresh every 60 seconds
+        setInterval(loadState, 60000);
+    </script>
 </body>
 </html>

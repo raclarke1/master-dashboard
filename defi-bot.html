@@ -1,201 +1,435 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Master Dashboard - DeFi Bot</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeFi Bot | Master Dashboard</title>
+    <meta http-equiv="refresh" content="60">
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --bg-card: #1c2128;
+            --bg-hover: #21262d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-green: #3fb950;
+            --accent-red: #f85149;
+            --accent-yellow: #d29922;
+            --accent-blue: #58a6ff;
+            --border-color: #30363d;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            height: 56px;
+        }
+        .nav-brand {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+            margin-right: 32px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-brand::before { content: '📊'; }
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.15s ease;
+        }
+        .nav-links a:hover {
+            color: var(--text-primary);
+            background: var(--bg-hover);
+        }
+        .nav-links a.active {
+            color: var(--text-primary);
+            background: var(--bg-card);
+        }
+        .nav-timestamp {
+            margin-left: auto;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
+
+        /* Main Content */
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        h1 { font-size: 24px; }
+        .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .status-trading { background: var(--accent-blue); color: #fff; }
+        .status-idle { background: var(--text-secondary); color: #fff; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 24px; }
+        .card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; }
+        .card-title { font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .card-value { font-size: 28px; font-weight: 700; }
+        .card-subtitle { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+        .positive { color: var(--accent-green); }
+        .negative { color: var(--accent-red); }
+        .trade-card { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border: 2px solid var(--accent-blue); }
+        .trade-short { background: var(--accent-red); color: #fff; padding: 4px 12px; border-radius: 4px; font-weight: 600; font-size: 14px; }
+        .trade-long { background: var(--accent-green); color: #fff; padding: 4px 12px; border-radius: 4px; font-weight: 600; font-size: 14px; }
+        .order-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color); }
+        .order-item:last-child { border-bottom: none; }
+        .log-entry { padding: 10px; border-left: 3px solid var(--border-color); margin-bottom: 8px; background: var(--bg-tertiary); border-radius: 0 8px 8px 0; font-size: 13px; }
+        .log-time { font-size: 11px; color: var(--text-secondary); }
+        footer { text-align: center; padding: 24px; color: var(--text-secondary); font-size: 12px; }
+        #loading { text-align: center; padding: 40px; color: var(--text-secondary); }
+        .no-position { text-align: center; padding: 40px; color: var(--text-secondary); }
+    </style>
 </head>
 <body>
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="index.html" class="nav-brand">Master Dashboard</a>
-      <ul class="nav-links">
-        <li><a href="index.html">Macro</a></li>
-        <li><a href="daily.html">Daily</a></li>
-        <li><a href="defi-bot.html" class="active">DeFi Bot</a></li>
-        <li><a href="momentum-bot.html">Momentum</a></li>
-        <li><a href="trading-bot.html">Trading</a></li>
-      </ul>
-      <span class="nav-timestamp" id="lastUpdate">Loading...</span>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">Master Dashboard</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Macro</a></li>
+                <li><a href="daily.html">Daily</a></li>
+                <li><a href="defi-bot.html" class="active">DeFi Bot</a></li>
+                <li><a href="momentum-bot.html">Momentum</a></li>
+                <li><a href="trading-bot.html">Trading</a></li>
+            </ul>
+            <span class="nav-timestamp" id="navLastUpdate">Loading...</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>🤖 DeFi Bot v3.2</h1>
+            <div>
+                <span id="status-badge" class="status-badge status-idle">Loading...</span>
+                <span id="last-update" style="margin-left: 12px; color: var(--text-secondary);"></span>
+            </div>
+        </header>
+        
+        <div id="loading">Loading dashboard data...</div>
+        <div id="dashboard" style="display: none;">
+            <!-- Position Card -->
+            <div id="position-card" class="card trade-card" style="margin-bottom: 24px;">
+            </div>
+            
+            <!-- Account Stats -->
+            <div class="grid">
+                <div class="card">
+                    <div class="card-title">💰 Equity</div>
+                    <div id="equity" class="card-value">$0.00</div>
+                    <div id="collateral" class="card-subtitle">Collateral: $0.00</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">📊 Leverage</div>
+                    <div id="leverage" class="card-value">0.00x</div>
+                    <div id="free-collateral" class="card-subtitle">Free: $0.00</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">📈 Unrealized PnL</div>
+                    <div id="pnl" class="card-value">$0.00</div>
+                    <div class="card-subtitle">Open positions</div>
+                </div>
+                <div class="card" style="border: 2px solid var(--accent-green);">
+                    <div class="card-title">💵 All-Time P&L</div>
+                    <div id="all-time-pnl" class="card-value positive">$0.00</div>
+                    <div id="all-time-breakdown" class="card-subtitle">Realized + Unrealized</div>
+                </div>
+            </div>
+            
+            <!-- Wallet Overview -->
+            <div class="card" style="margin-bottom: 24px; border: 1px solid var(--accent-yellow);">
+                <div class="card-title">🏦 WALLET OVERVIEW — Total Funds</div>
+                <div id="total-funds" class="card-value" style="margin: 12px 0;">$0.00</div>
+                <div id="wallets-list" style="margin-top: 16px; font-size: 13px;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border-color);">
+                                <th style="text-align: left; padding: 8px 4px; color: var(--text-secondary);">Wallet</th>
+                                <th style="text-align: left; padding: 8px 4px; color: var(--text-secondary);">Chain</th>
+                                <th style="text-align: right; padding: 8px 4px; color: var(--text-secondary);">Balance</th>
+                                <th style="text-align: left; padding: 8px 4px; color: var(--text-secondary);">Address</th>
+                            </tr>
+                        </thead>
+                        <tbody id="wallet-rows"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Trade History & Stats -->
+            <div class="grid" style="margin-bottom: 24px;">
+                <div class="card">
+                    <div class="card-title">📊 Trading Stats</div>
+                    <div id="trade-stats" style="margin-top: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Total Trades:</span>
+                            <span id="total-trades">0</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Win Rate:</span>
+                            <span id="win-rate">0%</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Total Realized P&L:</span>
+                            <span id="total-pnl" class="positive">$0.00</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Avg Win / Avg Loss:</span>
+                            <span id="avg-win-loss">$0 / $0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">🛡️ On-Chain Orders</div>
+                    <div id="orders-list"></div>
+                </div>
+            </div>
+
+            <!-- Closed Trades -->
+            <div class="card" style="margin-bottom: 24px;">
+                <div class="card-title">📜 Trade History (Closed Positions)</div>
+                <div id="closed-trades" style="margin-top: 12px; max-height: 300px; overflow-y: auto;"></div>
+            </div>
+            
+            <!-- Activity Log -->
+            <div class="card">
+                <div class="card-title">📋 Activity Log</div>
+                <div id="activity-log" style="max-height: 200px; overflow-y: auto; margin-top: 12px;"></div>
+            </div>
+        </div>
+        
+        <footer>
+            DeFi Bot by Jarvis | Strategy v3.2 | Auto-refreshes every 60s
+        </footer>
     </div>
-  </nav>
-
-  <main class="main-content">
-    <header class="page-header">
-      <h1 class="page-title">DeFi Bot</h1>
-      <p class="page-subtitle">Drift perps, arbitrage, and liquidation opportunities</p>
-    </header>
-
-    <!-- Bot Status -->
-    <section class="section">
-      <div class="grid-4">
-        <div class="stat-card">
-          <div class="stat-label">Status</div>
-          <div class="stat-value" id="defi-bot-status">--</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Total PnL</div>
-          <div class="stat-value" id="defi-total-pnl">--</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">24h PnL</div>
-          <div class="stat-value" id="defi-24h-pnl">--</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Open Positions</div>
-          <div class="stat-value" id="defi-open-positions">--</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Wallet Balances -->
-    <section class="section">
-      <h2 class="section-title">💰 Wallet Balances</h2>
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Solana Wallets</span>
-          </div>
-          <div class="card-body">
-            <table class="ticker-table">
-              <thead>
-                <tr>
-                  <th>Wallet</th>
-                  <th class="text-right">SOL</th>
-                  <th class="text-right">USDC</th>
-                </tr>
-              </thead>
-              <tbody id="solanaWallets">
-                <tr>
-                  <td>Main</td>
-                  <td class="text-right" id="sol-main">--</td>
-                  <td class="text-right" id="usdc-main">--</td>
-                </tr>
-                <tr>
-                  <td>Drift</td>
-                  <td class="text-right" id="sol-drift">--</td>
-                  <td class="text-right" id="usdc-drift">--</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Drift Account</span>
-          </div>
-          <div class="card-body">
-            <table class="ticker-table">
-              <thead>
-                <tr>
-                  <th>Metric</th>
-                  <th class="text-right">Value</th>
-                </tr>
-              </thead>
-              <tbody id="driftAccount">
-                <tr>
-                  <td>Free Collateral</td>
-                  <td class="text-right" id="drift-collateral">--</td>
-                </tr>
-                <tr>
-                  <td>Margin Used</td>
-                  <td class="text-right" id="drift-margin">--</td>
-                </tr>
-                <tr>
-                  <td>Unrealized PnL</td>
-                  <td class="text-right" id="drift-upnl">--</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Open Positions -->
-    <section class="section">
-      <h2 class="section-title">📊 Open Positions</h2>
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Drift Perpetuals</span>
-        </div>
-        <div class="card-body" style="padding: 0;">
-          <table class="ticker-table">
-            <thead>
-              <tr>
-                <th>Market</th>
-                <th>Side</th>
-                <th class="text-right">Size</th>
-                <th class="text-right">Entry</th>
-                <th class="text-right">Mark</th>
-                <th class="text-right">PnL</th>
-                <th class="text-right">Liq. Price</th>
-              </tr>
-            </thead>
-            <tbody id="openPositions">
-              <tr>
-                <td colspan="7" class="text-center text-muted">No open positions</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- Recent Trades -->
-    <section class="section">
-      <h2 class="section-title">📜 Recent Trades</h2>
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Last 20 Trades</span>
-        </div>
-        <div class="card-body" style="padding: 0;">
-          <table class="ticker-table">
-            <thead>
-              <tr>
-                <th>Time</th>
-                <th>Market</th>
-                <th>Side</th>
-                <th class="text-right">Size</th>
-                <th class="text-right">Price</th>
-                <th class="text-right">PnL</th>
-              </tr>
-            </thead>
-            <tbody id="recentTrades">
-              <tr>
-                <td colspan="6" class="text-center text-muted">No recent trades</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- Activity Log -->
-    <section class="section">
-      <h2 class="section-title">📋 Activity Log</h2>
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Bot Events</span>
-        </div>
-        <div class="card-body">
-          <ul class="activity-list" id="defiActivityLog">
-            <li class="activity-item">
-              <div class="activity-icon" style="background: rgba(88, 166, 255, 0.15);">ℹ️</div>
-              <div class="activity-content">
-                <div class="activity-text">Waiting for activity...</div>
-                <div class="activity-time">--</div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <script src="js/config.js"></script>
-  <script src="js/api.js"></script>
-  <script src="js/defi-bot.js"></script>
+    
+    <script>
+        async function loadDashboard() {
+            try {
+                const response = await fetch('state.json?' + Date.now());
+                const state = await response.json();
+                const data = state.defi || state; // Support both nested and flat structure
+                
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                
+                // Update nav timestamp
+                const updateTime = new Date(data.lastUpdate || state.lastUpdated).toLocaleString('en-US', {
+                    month: 'short', day: 'numeric', year: 'numeric',
+                    hour: 'numeric', minute: '2-digit', timeZoneName: 'short'
+                });
+                document.getElementById('navLastUpdate').textContent = updateTime;
+                
+                // Update header
+                const statusBadge = document.getElementById('status-badge');
+                statusBadge.textContent = data.status || 'IDLE';
+                statusBadge.className = 'status-badge ' + (data.status === 'TRADING' ? 'status-trading' : 'status-idle');
+                
+                document.getElementById('last-update').textContent = 'Updated: ' + updateTime;
+                
+                // Update account stats
+                const drift = data.drift || {};
+                document.getElementById('equity').textContent = '$' + (drift.equity || 0).toFixed(2);
+                document.getElementById('collateral').textContent = 'Collateral: $' + (drift.totalCollateral || 0).toFixed(2);
+                document.getElementById('leverage').textContent = (drift.leverage || 0).toFixed(2) + 'x';
+                document.getElementById('free-collateral').textContent = 'Free: $' + (drift.freeCollateral || 0).toFixed(2);
+                
+                const pnlEl = document.getElementById('pnl');
+                const pnl = drift.unrealizedPnl || 0;
+                pnlEl.textContent = (pnl >= 0 ? '+' : '') + '$' + pnl.toFixed(2);
+                pnlEl.className = 'card-value ' + (pnl >= 0 ? 'positive' : 'negative');
+                
+                // Calculate All-Time P&L (realized + unrealized)
+                const closedTrades = drift.closedPositions || [];
+                const realizedPnl = closedTrades.reduce((sum, t) => sum + (t.pnl || 0), 0);
+                const allTimePnl = realizedPnl + pnl;
+                const allTimePnlEl = document.getElementById('all-time-pnl');
+                allTimePnlEl.textContent = (allTimePnl >= 0 ? '+' : '') + '$' + allTimePnl.toFixed(2);
+                allTimePnlEl.className = 'card-value ' + (allTimePnl >= 0 ? 'positive' : 'negative');
+                document.getElementById('all-time-breakdown').textContent = 
+                    'Realized: ' + (realizedPnl >= 0 ? '+' : '') + '$' + realizedPnl.toFixed(2) + ' | Open: ' + (pnl >= 0 ? '+' : '') + '$' + pnl.toFixed(2);
+                
+                // Update wallet overview
+                const wallets = data.wallets || [];
+                const walletRows = document.getElementById('wallet-rows');
+                let totalFunds = 0;
+                
+                if (wallets.length > 0) {
+                    walletRows.innerHTML = wallets.map(w => {
+                        totalFunds += w.balanceUsd || 0;
+                        const shortAddr = w.address ? (w.address.slice(0, 8) + '...' + w.address.slice(-6)) : '-';
+                        return `
+                            <tr style="border-bottom: 1px solid var(--border-color);">
+                                <td style="padding: 8px 4px; font-weight: 500;">${w.name}</td>
+                                <td style="padding: 8px 4px; color: var(--text-secondary);">${w.chain}</td>
+                                <td style="padding: 8px 4px; text-align: right; font-weight: 600;" class="${(w.balanceUsd || 0) > 0 ? 'positive' : ''}">${w.balance || '-'} ${w.balanceUsd ? '($' + w.balanceUsd.toFixed(2) + ')' : ''}</td>
+                                <td style="padding: 8px 4px; font-family: monospace; font-size: 11px; color: var(--text-secondary);">${shortAddr}</td>
+                            </tr>
+                        `;
+                    }).join('');
+                    document.getElementById('total-funds').textContent = '$' + totalFunds.toFixed(2);
+                } else {
+                    walletRows.innerHTML = '<tr><td colspan="4" style="padding: 16px; text-align: center; color: var(--text-secondary);">No wallet data</td></tr>';
+                }
+                
+                // Update positions (supports array)
+                const positionCard = document.getElementById('position-card');
+                const positions = drift.positions || (drift.position ? [drift.position] : []);
+                
+                if (positions.length > 0 && drift.leverage > 0.01) {
+                    positionCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <span class="card-title">🎯 OPEN POSITIONS (${positions.length})</span>
+                        </div>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <th style="text-align: left; padding: 8px 4px; color: var(--text-secondary);">Asset</th>
+                                    <th style="text-align: left; padding: 8px 4px; color: var(--text-secondary);">Dir</th>
+                                    <th style="text-align: right; padding: 8px 4px; color: var(--text-secondary);">Notional</th>
+                                    <th style="text-align: right; padding: 8px 4px; color: var(--text-secondary);">PnL</th>
+                                    <th style="text-align: right; padding: 8px 4px; color: var(--text-secondary);">SL / TP</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${positions.map(p => `
+                                        <tr style="border-bottom: 1px solid var(--border-color);">
+                                            <td style="padding: 10px 4px; font-weight: 600;">${p.asset}</td>
+                                            <td style="padding: 10px 4px;"><span class="${p.direction === 'SHORT' ? 'trade-short' : 'trade-long'}">${p.direction}</span></td>
+                                            <td style="padding: 10px 4px; text-align: right;">$${(p.notional || 0).toLocaleString()}</td>
+                                            <td style="padding: 10px 4px; text-align: right;" class="${(p.pnl || 0) >= 0 ? 'positive' : 'negative'}">${(p.pnl || 0) >= 0 ? '+' : ''}$${(p.pnl || 0).toFixed(2)}</td>
+                                            <td style="padding: 10px 4px; text-align: right; font-size: 12px; color: var(--text-secondary);">${p.stopLoss ? '$' + p.stopLoss : '-'} / ${p.takeProfit ? '$' + p.takeProfit : '-'}</td>
+                                        </tr>
+                                    `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                } else {
+                    positionCard.innerHTML = '<div class="no-position">No open positions</div>';
+                }
+                
+                // Update orders
+                const ordersList = document.getElementById('orders-list');
+                const orders = data.openOrders || [];
+                if (orders.length > 0) {
+                    ordersList.innerHTML = orders.map(o => `
+                        <div class="order-item">
+                            <span>${o.type}</span>
+                            <span>$${o.trigger.toLocaleString()} (${o.status})</span>
+                        </div>
+                    `).join('');
+                } else {
+                    ordersList.innerHTML = '<div style="color: var(--text-secondary); padding: 8px 0;">No open orders</div>';
+                }
+                
+                // Update closed trades and stats (closedTrades already defined above)
+                const closedTradesEl = document.getElementById('closed-trades');
+                
+                if (closedTrades.length > 0) {
+                    // Calculate stats
+                    const wins = closedTrades.filter(t => (t.pnl || 0) > 0);
+                    const losses = closedTrades.filter(t => (t.pnl || 0) <= 0);
+                    const totalPnl = closedTrades.reduce((sum, t) => sum + (t.pnl || 0), 0);
+                    const winRate = (wins.length / closedTrades.length * 100).toFixed(1);
+                    const avgWin = wins.length > 0 ? (wins.reduce((s, t) => s + t.pnl, 0) / wins.length).toFixed(2) : 0;
+                    const avgLoss = losses.length > 0 ? (losses.reduce((s, t) => s + t.pnl, 0) / losses.length).toFixed(2) : 0;
+                    
+                    // Update stats
+                    document.getElementById('total-trades').textContent = closedTrades.length;
+                    document.getElementById('win-rate').textContent = winRate + '% (' + wins.length + 'W / ' + losses.length + 'L)';
+                    const totalPnlEl = document.getElementById('total-pnl');
+                    totalPnlEl.textContent = (totalPnl >= 0 ? '+' : '') + '$' + totalPnl.toFixed(2);
+                    totalPnlEl.className = totalPnl >= 0 ? 'positive' : 'negative';
+                    document.getElementById('avg-win-loss').textContent = '+$' + avgWin + ' / $' + avgLoss;
+                    
+                    // Render closed trades table
+                    closedTradesEl.innerHTML = `
+                        <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <th style="text-align: left; padding: 6px 4px; color: var(--text-secondary);">Asset</th>
+                                    <th style="text-align: left; padding: 6px 4px; color: var(--text-secondary);">Dir</th>
+                                    <th style="text-align: right; padding: 6px 4px; color: var(--text-secondary);">Entry</th>
+                                    <th style="text-align: right; padding: 6px 4px; color: var(--text-secondary);">Exit</th>
+                                    <th style="text-align: right; padding: 6px 4px; color: var(--text-secondary);">P&L</th>
+                                    <th style="text-align: right; padding: 6px 4px; color: var(--text-secondary);">Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${closedTrades.map(t => `
+                                    <tr style="border-bottom: 1px solid var(--border-color);">
+                                        <td style="padding: 8px 4px;">${t.asset}</td>
+                                        <td style="padding: 8px 4px;"><span class="${t.direction === 'SHORT' ? 'trade-short' : 'trade-long'}" style="font-size: 11px; padding: 2px 6px;">${t.direction}</span></td>
+                                        <td style="padding: 8px 4px; text-align: right;">$${t.entry}</td>
+                                        <td style="padding: 8px 4px; text-align: right;">$${t.exit}</td>
+                                        <td style="padding: 8px 4px; text-align: right;" class="${(t.pnl || 0) >= 0 ? 'positive' : 'negative'}">${(t.pnl || 0) >= 0 ? '+' : ''}$${(t.pnl || 0).toFixed(2)}</td>
+                                        <td style="padding: 8px 4px; text-align: right; font-size: 11px; color: var(--text-secondary);">${t.reason || '-'}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                } else {
+                    closedTradesEl.innerHTML = '<div style="color: var(--text-secondary); padding: 16px 0; text-align: center;">No closed trades yet</div>';
+                    document.getElementById('total-trades').textContent = '0';
+                    document.getElementById('win-rate').textContent = 'N/A';
+                    document.getElementById('total-pnl').textContent = '$0.00';
+                    document.getElementById('avg-win-loss').textContent = '-';
+                }
+                
+                // Update activity log
+                const activityLog = document.getElementById('activity-log');
+                const logs = data.activityLog || [];
+                activityLog.innerHTML = logs.map(log => `
+                    <div class="log-entry">
+                        <span class="log-time">${log.time}</span> — ${log.message}
+                    </div>
+                `).join('');
+                
+            } catch (err) {
+                document.getElementById('loading').textContent = 'Error loading data: ' + err.message;
+            }
+        }
+        
+        loadDashboard();
+        setInterval(loadDashboard, 60000);
+    </script>
 </body>
 </html>
